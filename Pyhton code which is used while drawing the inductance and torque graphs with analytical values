@@ -1,0 +1,55 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Dataset parameters
+L_min = 8.5
+L_max = 42.4
+L_avg = (L_max + L_min) / 2
+Delta_L = (L_max - L_min) / 2
+I = 2.5
+
+# Torque peak calculation
+T_peak = (I**2) * Delta_L
+T_max = T_peak
+T_min = -T_peak
+
+# Theta values from 0 to 360
+theta_deg = np.linspace(0, 360, 500)
+theta_rad = np.radians(theta_deg)
+
+# Inductance and Torque calculations
+L = L_avg + (Delta_L * np.cos(2 * theta_rad))
+T = -(I**2) * Delta_L * np.sin(2 * theta_rad)
+
+# Inductance Plot
+plt.figure(figsize=(10, 6))
+plt.plot(theta_deg, L, label='Inductance ($L$)', color='blue', linewidth=2.5)
+plt.axhline(y=L_max, color='r', linestyle='--', label=f'$L_{{max}}$ = {L_max} mH')
+plt.axhline(y=L_min, color='g', linestyle='--', label=f'$L_{{min}}$ = {L_min} mH')
+plt.axhline(y=L_avg, color='gray', linestyle=':', label=f'$L_{{avg}}$ = {L_avg} mH')
+plt.title('Inductance Variation vs Angle', fontsize=14)
+plt.xlabel('Angle (Degrees)', fontsize=12)
+plt.ylabel('Inductance (mH)', fontsize=12)
+plt.xlim(0, 360)
+plt.xticks(np.arange(0, 361, 45))
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.legend(loc='upper right')
+plt.show()
+
+# Torque Plot with Tmax and Tmin
+plt.figure(figsize=(10, 6))
+plt.plot(theta_deg, T, label='Torque ($T$)', color='blue', linewidth=2.5)
+
+# Adding Tmax and Tmin reference lines
+plt.axhline(y=T_max, color='r', linestyle='--', label=f'$T_{{max}}$ = {T_max:.2f}')
+plt.axhline(y=T_min, color='g', linestyle='--', label=f'$T_{{min}}$ = {T_min:.2f}')
+plt.axhline(y=0, color='gray', linestyle=':', alpha=0.5)
+
+plt.title('Torque Graph', fontsize=14)
+plt.xlabel('Angle (Degrees)', fontsize=12)
+plt.ylabel('Torque', fontsize=12)
+plt.xlim(0, 360)
+plt.xticks(np.arange(0, 361, 45))
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.legend(loc='upper right')
+plt.show()
